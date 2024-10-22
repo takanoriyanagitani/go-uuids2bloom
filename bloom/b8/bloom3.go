@@ -6,6 +6,11 @@ import (
 	u2b "github.com/takanoriyanagitani/go-uuids2bloom"
 )
 
+const (
+	// Best value when expected number of items is 32.
+	NumberOfHash256bitsDefault int = 6
+)
+
 type Bloom3 [32]uint8 // 256 bits
 
 type UuidToBloom3 func(context.Context, u2b.Uuid, Bloom3) (Bloom3, error)
@@ -52,7 +57,7 @@ func (a AddHashToBloom3) ToAddHashAll() AddHashAllToBloom3 {
 	return func(ctx context.Context, hash [8]uint8, b Bloom3) (Bloom3, error) {
 		var state Bloom3 = b
 		var err error
-		for _, h := range hash[:6] {
+		for _, h := range hash[:NumberOfHash256bitsDefault] {
 			state, err = a(ctx, h, state)
 			if nil != err {
 				return b, err
