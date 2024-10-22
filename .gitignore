@@ -24,3 +24,4 @@ go.work.sum
 # env file
 .env
 *.swp
+cmd/uuids2bloom/uuids2bloom3/uuids2bloom3
