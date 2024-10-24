@@ -32,6 +32,11 @@ func (u UuidsToBloomToWriter3) Write(
 			return pair.Left
 		}
 
+		if state.IsFull() {
+			// no bits can be added anymore
+			return u.WriteBloom3(ctx, state)
+		}
+
 		state, err = u.UuidToBloom3(ctx, pair.Right, state)
 		if nil != err {
 			return err

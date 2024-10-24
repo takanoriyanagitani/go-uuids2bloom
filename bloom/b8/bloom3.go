@@ -4,6 +4,8 @@ import (
 	"context"
 
 	u2b "github.com/takanoriyanagitani/go-uuids2bloom"
+
+	bu "github.com/takanoriyanagitani/go-uuids2bloom/bloom/bu"
 )
 
 const (
@@ -13,6 +15,17 @@ const (
 
 // Bloom bits(256 bits).
 type Bloom3 [32]uint8
+
+func (b Bloom3) IsFull() bool {
+	for _, u := range b {
+		var bunit bu.BloomUnit = bu.BloomUnit(u)
+		var ufull bool = bunit.IsFull()
+		if !ufull {
+			return false
+		}
+	}
+	return true
+}
 
 // Adds the uuid to the bloom bits.
 type UuidToBloom3 func(context.Context, u2b.Uuid, Bloom3) (Bloom3, error)
