@@ -92,7 +92,7 @@ type SetBit3 func(b07 uint8, bloom uint8) uint8
 // Creates [AddHashToBloom3].
 func (s SetBit3) ToAddHashToBloom3() AddHashToBloom3 {
 	return func(ctx context.Context, hash uint8, b Bloom3) (Bloom3, error) {
-		var shifted uint8 = hash >> 3
+		var shifted uint8 = hash >> 3 // up to 31
 		var b8 uint8 = b[shifted]
 		var neo uint8 = s(hash&0x07, b8)
 		b[shifted] = neo
